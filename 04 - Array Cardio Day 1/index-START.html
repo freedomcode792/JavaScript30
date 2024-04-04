@@ -39,23 +39,75 @@
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
 
+    //const fifteens = inventors.filter((item)=> item.year >= 1500 && item.year <1600 );
+
+
+    const fifteens = inventors.filter((item) => item.year >= 1500 && item.year < 1600 );
+
+    
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+
+    const firstnlast = inventors.map(function(item) { return { first: item.first, last: item.last, } });
+
+    
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
 
+    const oldest2youngest = inventors.sort( (a, b) => a.year < b.year ? -1 : 1 );
+
+    
+
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
 
+    const totalAge = inventors.reduce(function(total, currentInventor){
+      return total += currentInventor.passed - currentInventor.year;
+    }, 0);
+
+    
+
     // 5. Sort the inventors by years lived
 
+    const shortest2longest = inventors.sort((a, b)=> (a.passed - a.year) > (b.passed - b.year) ? -1 : 1 );
+
+    
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    function selectByText(selector, regex = /^[A-Z]$/){
+      const selected = Array.from(document.querySelectorAll(selector));
+      const filtered = selected.filter((element)=> element.textContent.trim().match(regex));
+      return filtered;
 
+      /*Need to:
+        1. Select all elements of a certain class
+        2. From them, select all elements which have embedded <h3> with certain string.
+            1) Check these elements for presence of specified children and select those elements.
+            2) Check their children for having specified text content. Select the elements which do have such children.
+            
+      
+      */
+
+    }
+
+    //const contents = Array.from(document.querySelectorAll(".mw-category-group")).filter((item)=> item.querySelector("h3").textContent.trim().match(/^[A-Z]$/)).querySelector("a");
+    
+    // const links = Array.from(document.querySelectorAll(".mw-category a")).filter((item) => item.parentNode.parentNode.previousElementSibling.textContent.match(/[A-Z]/));
+    // const de = links.filter((link)=> link.textContent.match(/de/g) );
+
+    const links = Array.from(document.querySelectorAll(".mw-category a")).filter((item) => item.parentNode.parentNode.previousElementSibling.textContent.match(/[A-Z]/));
+    const de = links
+						.filter((link) => link.textContent.match(/de/g))
+						.map((link) => link.textContent);
+
+
+            
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+
+
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
