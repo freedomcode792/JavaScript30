@@ -76,42 +76,72 @@
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
-    function selectByText(selector, regex = /^[A-Z]$/){
-      const selected = Array.from(document.querySelectorAll(selector));
-      const filtered = selected.filter((element)=> element.textContent.trim().match(regex));
-      return filtered;
 
-      /*Need to:
-        1. Select all elements of a certain class
-        2. From them, select all elements which have embedded <h3> with certain string.
-            1) Check these elements for presence of specified children and select those elements.
-            2) Check their children for having specified text content. Select the elements which do have such children.
-            
-      
-      */
+    /*
+    const links = Array.from(document.querySelectorAll(".mw-category a"))
+                              .filter((item) => item.parentNode.parentNode.previousElementSibling.textContent.match(/[A-Z]/));
 
-    }
-
-    //const contents = Array.from(document.querySelectorAll(".mw-category-group")).filter((item)=> item.querySelector("h3").textContent.trim().match(/^[A-Z]$/)).querySelector("a");
-    
-    // const links = Array.from(document.querySelectorAll(".mw-category a")).filter((item) => item.parentNode.parentNode.previousElementSibling.textContent.match(/[A-Z]/));
-    // const de = links.filter((link)=> link.textContent.match(/de/g) );
-
-    const links = Array.from(document.querySelectorAll(".mw-category a")).filter((item) => item.parentNode.parentNode.previousElementSibling.textContent.match(/[A-Z]/));
     const de = links
-						.filter((link) => link.textContent.match(/de/g))
-						.map((link) => link.textContent);
+						    .filter((link) => link.textContent.match(/de/g)) //or .includes('de');
+						    .map((link) => link.textContent);
+    */
 
 
-            
     // 7. sort Exercise
     // Sort the people alphabetically by last name
 
+    const sorted = people.sort(function(current, next){
+      const [curLast, curFirst] = current.split(", ");
+      const [nextLast, nextFirst] = next.split(", ");
+      
+      return curLast > nextLast ? 1 : -1; //the negative value is 1, because 1 means the current will go after the next
+      /*in alphabetic comparison, the letter further from the start of the alphabet 
+      is considered greater than the one closer to the start. For that reason the result
+      needs to be inverted*/
+    });
 
+    console.table(sorted);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+
+    function sumEachItem(arr){
+     
+      let sumData = [];
+
+      for(let i = 0; i<arr.length; i++){
+
+        sumData[i] = arr.reduce( (total, current) => {
+          if (current === arr[i]){
+            return total += current;
+          }else {
+            return total;
+          }
+        } , "");
+      }
+
+
+
+      return [...new Set(sumData)];
+
+    }
+
+    function sumArray(data){
+      const sumData = data.reduce( (obj, item) => {
+
+        if(!(obj[item])){ //if a property by this name doesn't exist -> initialize it with 0
+          obj[item] = 0;
+        }
+
+        obj[item]++; //increment the object property by the name of the current array item
+
+        return obj;
+
+      },{}); //define the total as an object, not the first item of the array
+      return sumData;
+    }
+
 
   </script>
 </body>
